@@ -6,20 +6,20 @@ In order to run the scripts, it is necessary to install the following library on
 When you instantiate `ImageProcessor`, it will read images from `TQ1/` folder, extract the following information, and store them into a `data` variable as a dictionary:
 ```JSON
 {
-    "timestamp": datetime,
+    "timestamp": "",              // datetime
     "inputs": [
      {
-         "image" : 2d list of int,
-         "image_path": str,
+         "image" : "",            // 2d list of int
+         "image_path": "",        // str
          "image_stat": {
-             "height" : int,
-             "width" : int,
-             "max_intensity": int,
-             "min_intensity": int,
-             "hist_intensity": 2d list of float
+             "height" : "",       // int
+             "width"  : "",       // int
+             "max_intensity": "", // int
+             "min_intensity": "", // int
+             "hist_intensity": "" // 2d list of float
             }
      },
-     ...
+     //...
      ]
 }
 ``` 
@@ -48,17 +48,18 @@ python ImageProcessor.py -i <path/to/TQ1> -m TQ3
 The output should be stored in JSON format (i.e., `TQ3_out.json`), following the below structure:
 ```JSON
 {
-    "mask" : 2d list of int,
+    "mask" : "",            // 2d list of int
     "contours" : [
     {
-        "momentum" : (float,float),           // image moments
-        "area" : float,                       // contour area
-        "perimeter" : float,                  // arc length
-        "convhull" : 2d list of (int,int),    // points of polygon
-        "boundingbox" : [int, int, int, int], // points of bb (x, y, w, h)
-        "mincircle" : [float, float, float]   // minimum enclosing circle (x, y, and radius)
+        "momentum" : "",    // image moments: (float,float)
+        "area" : "",        // contour area: float
+        "perimeter" : "",   // arc length: float
+        "convhull" : "",    // points of polygon: 2d list of (int,int)
+        "boundingbox" : "", // coords, width, and height of bb: (int, int, int, int)
+        "mincircle" : ""    // coords and radius of minimum enclosing circle: 
+                            // (float, float, float]
     },
-    ...
+    //...
     ]
     }
 ```
