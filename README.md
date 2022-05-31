@@ -1,4 +1,5 @@
-## Requirements
+
+## Requirements & Installation
 In order to run this code, please install the packages listed in the `requirements.txt` file using the following commands:
 ```bash
 # - Create a new conda environment
@@ -7,8 +8,6 @@ In order to run this code, please install the packages listed in the `requiremen
 # e.g., conda activate <envname>
 # - Install packages
 pip install -r requirements.txt
-```
-
 ```
 
 ## TQ1 - Image Processing
