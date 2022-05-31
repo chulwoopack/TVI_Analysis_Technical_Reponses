@@ -139,7 +139,7 @@ class ImageProcessor:
         return pred.astype(np.uint8)
     
     @ray.remote
-    def segmentByGraphCutDist(self, i, inp_01=None, inp_02=None, inp_03=None, method='felzenszwalb', scale=3000, kernel_size=(15,15)):
+    def segmentByGraphCutDist(i=0, image_01=None, image_02=None, image_03=None, method='felzenszwalb', scale=3000, kernel_size=(15,15)):
         '''Segment image based on graph cut algorithm in a distributed fashion
         Parameters
         ----------
@@ -165,11 +165,11 @@ class ImageProcessor:
             Segmentation result (binary mask, 0:background 1:object)
         '''
         # Get image
-        image_01 = np.array(inp_01['image']).astype(np.uint8)
-        image_02 = np.array(inp_02['image']).astype(np.uint8)
-        image_03 = np.array(inp_02['image']).astype(np.uint8)
+        #image_01 = np.array(inp_01['image']).astype(np.uint8)
+        #image_02 = np.array(inp_02['image']).astype(np.uint8)
+        #image_03 = np.array(inp_03['image']).astype(np.uint8)
         
-        print(i, image_01.shape, image_02.shape, image_03.shape)
+        #print(i, image_01.shape, image_02.shape, image_03.shape)
         
         # Patch Generation
         '''Patch generation
@@ -214,10 +214,10 @@ class ImageProcessor:
             image_03 = image_03[2500*1:2500*2,2800*3:]
         '''
         # For now, consider to use fixed patch-size (1024x1024)
-        patch_size = 128
-        image_01 = image_01[:patch_size,:patch_size]
-        image_02 = image_02[:patch_size,:patch_size]
-        image_03 = image_03[:patch_size,:patch_size]
+        patch_size = 1024
+        image_01 = image_01[patch_size*3:patch_size*4, patch_size*3:patch_size*4]
+        image_02 = image_02[patch_size*3:patch_size*4, patch_size*3:patch_size*4]
+        image_03 = image_03[patch_size*3:patch_size*4, patch_size*3:patch_size*4]
         
         if method=='felzenszwalb':
             # Based on the observation that two channels seem to be more responsible to noise than the other one, 
@@ -474,7 +474,10 @@ elif MODE == "TQ5":
     # Starting Ray
     ray.init()        
     #results = ray.get([ip.segmentByGraphCutDist.remote(i,ip.data['inputs'][0],ip.data['inputs'][1],ip.data['inputs'][2]) for i in range(os.cpu_count())])
-    results = ray.get([ip.segmentByGraphCutDist.remote(i,ip.data['inputs'][0],ip.data['inputs'][1],ip.data['inputs'][2]) for i in range(4)])
+    image_01 = np.array(ip.data['inputs'][0]['image']).astype(np.uint8)
+    image_02 = np.array(ip.data['inputs'][1]['image']).astype(np.uint8)
+    image_03 = np.array(ip.data['inputs'][2]['image']).astype(np.uint8)
+    results = ray.get([ip.segmentByGraphCutDist.remote(i,image_01,image_02,image_03) for i in range(6)])
     # Shutdown Ray
     ray.shutdown()
     for idx,result in enumerate(results):
