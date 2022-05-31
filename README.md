@@ -1,6 +1,15 @@
 ## Requirements
-In order to run the scripts, it is necessary to install the following library on your system:
-* [Pandas](https://pandas.pydata.org/) (>=0.24.2)
+In order to run this code, please install the packages listed in the `requirements.txt` file using the following commands:
+```bash
+# - Create a new conda environment
+# e.g., conda create -n <envname>
+# - Activate the environment
+# e.g., conda activate <envname>
+# - Install packages
+pip install -r requirements.txt
+```
+
+```
 
 ## TQ1 - Image Processing
 When you instantiate `ImageProcessor`, it will read images from `TQ1/` folder, extract the following information, and store them into a `data` variable as a dictionary:
